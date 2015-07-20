@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GEFTutorial
+Bundle-SymbolicName: GEFTutorial;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: geftutorial.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.gef;bundle-version="3.10.0",
+ org.eclipse.zest.core;bundle-version="1.5.200",
+ org.eclipse.zest.layouts;bundle-version="1.1.200",
+ org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

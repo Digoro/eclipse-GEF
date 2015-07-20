@@ -27,6 +27,7 @@ public class View extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		
+		
 		graph = new Graph(parent, SWT.NONE);
 		@SuppressWarnings("unused")
 		GraphNode node1 = new NewGraphNode(graph, SWT.NONE, "Node 1");

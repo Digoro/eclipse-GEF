@@ -1,61 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
          id="application"
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="gef.Application">
+               class="filebrowser.Application">
          </run>
       </application>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="Perspective"
-            class="gef.Perspective"
-            id="GEFTutorial.perspective">
+            name="RCP Perspective"
+            class="filebrowser.Perspective"
+            id="FileBrowser.perspective">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            name="View"
-            class="gef.View"
-            id="GEFTutorial.view">
+            allowMultiple="true"
+            class="views.BrowserView"
+            id="FileBrowser.browserView"
+            name="Browser"
+            restorable="true">
       </view>
       <view
-            class="gef.View"
-            id="GEFTutorial.view2"
-            name="View2">
+            class="views.PathView"
+            id="FileBrowser.pathView"
+            name="Path"
+            restorable="true">
+      </view>
+      <view
+            class="views.OutlineView"
+            id="FileBrowser.outlineView"
+            name="Outline"
+            restorable="true">
+      </view>
+      <view
+            class="org.eclipse.gef.ui.views.palette.PaletteView"
+            id="org.eclipse.gef.ui.palette_view"
+            name="Palette"
+            restorable="true">
       </view>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="*">
-         <view
-               standalone="true"
-               minimized="false"
-               relative="org.eclipse.ui.editorss"
-               relationship="left"
-               id="GEFTutorial.view2">
-         </view>
-      </perspectiveExtension>
+         point="org.eclipse.ui.editors">
+      <editor
+            class="editors.MyTextEditor"
+            default="false"
+            extensions="txt"
+            id="FileBrowser.MyTextEditor"
+            name="MyTextEditor">
+      </editor>
+      <editor
+            class="editors.ImageEditor"
+            default="false"
+            id="FileBrowser.ImageEditor"
+            name="ImageEditor">
+      </editor>
+      <editor
+            class="editors.MyGraphicalEditor"
+            default="false"
+            id="FileBrowser.myGraphicalEditor"
+            name="GraphView">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="gef.ChangeLayoutStyleHandler"
-            id="GEFTutorial.command.changeLayoutStyle"
-            name="Change Layout Style">
+            defaultHandler="handlers.ExitHandler"
+            id="FileBrowser.command.Exit"
+            name="Exit">
       </command>
       <command
-            defaultHandler="gef.ChangeConnectionStyleHandler"
-            id="GEFTutorial.command.changeConnectionStyle"
-            name="Change Connection Style">
+            id="FileBrowser.command.About"
+            name="About">
+      </command>
+      <command
+            defaultHandler="handlers.ExpandHandler"
+            id="FileBrowser.Expand"
+            name="Expand">
+      </command>
+      <command
+            defaultHandler="handlers.CollapseHandler"
+            id="FileBrowser.CollapseAll"
+            name="CollapseAll">
+      </command>
+      <command
+            defaultHandler="handlers.FileOpenHandler"
+            id="FileBrowser.fileOpen"
+            name="Open File">
+      </command>
+      <command
+            defaultHandler="handlers.FileInfoHandler"
+            id="FileBrowser.command.FileInfo"
+            name="File Info">
+      </command>
+      <command
+            id="FileBrowser.command.fileCopy"
+            name="Copy">
+      </command>
+      <command
+            defaultHandler="handlers.NomalConnectionRouterHandler"
+            id="FileBrowser.command.nomalConnectionRouter"
+            name="Nomal Connection Router">
+      </command>
+      <command
+            defaultHandler="handlers.ManhattanConnectionRouterHandler"
+            id="FileBrowser.command.manhattanConnectionRouter"
+            name="Manhattan Connection Router">
+      </command>
+      <command
+            defaultHandler="handlers.NomalTreeLayoutAlgorithmHandler"
+            id="FileBrowser.command.nomalTreeLayoutAlgorithm"
+            name="Nomal Tree Layout Algorithm">
+      </command>
+      <command
+            defaultHandler="handlers.HorizontalTreeLayoutAlgorithmHandler"
+            id="FileBrowser.command.horizontalTreeLayoutAlgorithm"
+            name="Horizontal Tree Layout Algorithm">
+      </command>
+      <command
+            defaultHandler="handlers.HorizontalShiftLayoutAlgorithmHandler"
+            id="FileBrowser.command.horizontalShiftLayoutAlgorithm"
+            name="Horizontal Shift Layout Algorithm">
+      </command>
+      <command
+            defaultHandler="handlers.GridLayoutAlgorithmHandler"
+            id="FileBrowser.command.gridLayoutAlgorithm"
+            name="Grid Layout Algorithm">
+      </command>
+      <command
+            defaultHandler="handlers.ZoomInHandler"
+            id="FileBrowser.command.zoomIn"
+            name="Zoom In">
+      </command>
+      <command
+            defaultHandler="handlers.ZoomOutHandler"
+            id="FileBrowser.command.zoomOut"
+            name="Zoom Out">
       </command>
    </extension>
    <extension
@@ -63,29 +149,178 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu">
          <menu
+               id="fileMenu"
                label="File">
             <command
-                  commandId="org.eclipse.ui.file.exit"
-                  label="Exit">
+                  commandId="FileBrowser.fileOpen"
+                  label="Open File"
+                  style="push"
+                  tooltip="open select file">
+            </command>
+            <command
+                  commandId="FileBrowser.command.Exit"
+                  label="Exit"
+                  style="push"
+                  tooltip="Exit the application">
+            </command>
+         </menu>
+         <menu
+               id="helpMenu"
+               label="Help">
+            <command
+                  commandId="FileBrowser.command.About"
+                  label="About"
+                  style="push"
+                  tooltip="Popup dialog">
             </command>
          </menu>
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:GEFTutorial.view2">
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="FileBrowser.toolbar">
+            <command
+                  commandId="FileBrowser.command.About"
+                  icon="icons/alt_window16.gif"
+                  label="About"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:FileBrowser.browserView">
          <command
-               commandId="GEFTutorial.command.changeLayoutStyle"
-               icon="icons/Layout.ico"
-               label="Change Layout Style"
+               commandId="FileBrowser.Expand"
+               icon="icons/expand.png"
+               label="Expand"
+               style="push"
+               tooltip="Expand file tree to level 3">
+         </command>
+         <command
+               commandId="FileBrowser.CollapseAll"
+               icon="icons/collapse.png"
+               label="Collapse All"
+               style="push"
+               tooltip="Collapse all file tree">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:FileBrowser.ImageEditor">
+         <command
+               commandId="FileBrowser.command.About"
+               icon="icons/folder.png"
+               label="About"
                style="push">
          </command>
          <command
-               commandId="GEFTutorial.command.changeConnectionStyle"
-               icon="icons/Connection.ico"
-               label="Change Connection Style"
+               commandId="FileBrowser.command.FileInfo"
+               icon="icons/zoomin.png"
+               label="File Info"
                style="push">
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:FileBrowser.MyTextEditor">
+         <command
+               commandId="FileBrowser.command.About"
+               icon="icons/folder.png"
+               label="About"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:FileBrowser.browserView">
+         <command
+               commandId="FileBrowser.Expand"
+               label="Expand to Level 3"
+               style="push">
+         </command>
+         <command
+               commandId="FileBrowser.CollapseAll"
+               label="Collapse All"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:FileBrowser.ImageEditor">
+         <command
+               commandId="FileBrowser.command.FileInfo"
+               icon="icons/zoomin.png"
+               label="File Info"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:FileBrowser.MyGraphicalEditor">
+         <control
+               class="utils.ControlConnectionRouter">
+         </control>
+         <control
+               class="utils.ControlLayoutAlgorithm">
+         </control>
+         <command
+               commandId="FileBrowser.command.zoomIn"
+               icon="icons/ZoomIn.ico"
+               label="Zoom In"
+               style="push">
+         </command>
+         <command
+               commandId="FileBrowser.command.zoomOut"
+               icon="icons/ZoomOut.ico"
+               id="Zoom Out"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="FileBrowser.command.Exit"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+X">
+      </key>
+      <key
+            commandId="FileBrowser.Expand"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+1">
+      </key>
+      <key
+            commandId="FileBrowser.CollapseAll"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+2">
+      </key>
+      <key
+            commandId="FileBrowser.command.zoomIn"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+9">
+      </key>
+      <key
+            commandId="FileBrowser.command.zoomOut"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+0">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="handlers.AboutHandler"
+            commandId="FileBrowser.command.About">
+         <enabledWhen>
+            <with
+                  variable="activePart">
+               <instanceof
+                     value="views.BrowserView">
+               </instanceof>
+            </with>
+         </enabledWhen> 
+      </handler>
    </extension>
 
 </plugin>
